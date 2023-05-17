@@ -77,7 +77,7 @@ MONTH = 12
 DAY = 28
 
 class CustomDate:
-    def __init__(self, year: int, month: int, day:int):
+    def __init__(self, year: int, month: int, day:int) -> None:
         self.total = 0
         self.add(year, month, day)
 
