@@ -81,23 +81,9 @@ class CustomDate:
         self.total = 0
         self.add(year, month, day)
 
-        
+
     def __ge__(self, customDate: object) -> bool:
         return self.total >= customDate.total
-        
-
-    def __monthToDays(month: int):
-        return month * DAY
-    
-    
-    def __yearToDays(year: int):
-        return year * MONTH * DAY
-    
-    
-    def strToCustomDate(date: str, format: str = DATE_FORMAT):
-        formatDatetime = datetime.strptime(date, format)
-        year, month, day = int(formatDatetime.year), int(formatDatetime.month), int(formatDatetime.day)
-        return CustomDate(year, month, day)
     
 
     def add(self, year: int = 0, month: int = 0, day: int = 0) -> None:
@@ -105,6 +91,20 @@ class CustomDate:
         self.total += CustomDate.__monthToDays(month)
         self.total += day
         return
+    
+    def __monthToDays(month: int) -> int:
+        return month * DAY
+    
+    
+    def __yearToDays(year: int) -> int:
+        return year * MONTH * DAY
+    
+
+    def strToCustomDate(date: str, format: str = DATE_FORMAT) -> object:
+        formatDatetime = datetime.strptime(date, format)
+        year, month, day = int(formatDatetime.year), int(formatDatetime.month), int(formatDatetime.day)
+        return CustomDate(year, month, day)
+
 
 
 def solution(today, terms, privacies):
