@@ -76,7 +76,7 @@ YEAR = 2022
 MONTH = 12
 DAY = 28
 
-class CustomDate:
+class CustomTimeStamp:
     def __init__(self, year: int, month: int, day:int) -> None:
         self.total = 0
         self.add(year, month, day)
@@ -129,6 +129,7 @@ def solution(today, terms, privacies):
 def getTerm(term: str) -> Tuple[str, int]:
     termType, strMonth = term.split()
     return termType, int(strMonth)
+
 
 if __name__ == "__main__":
     print(solution(
