@@ -87,37 +87,41 @@ class CustomTimeStamp:
     
 
     def add(self, year: int = 0, month: int = 0, day: int = 0) -> None:
-        self.total += CustomDate.__yearToDays(year)
-        self.total += CustomDate.__monthToDays(month)
+        self.__addYearToDays(year)
+        self.__addMonthToDays(month)
+        self.__addDay(day)
+
+
+    def __addYearToDays(self, year: int) -> None:
+        self.total += year * MONTH * DAY
+    
+    
+    def __addMonthToDays(self, month: int) -> None:
+        self.total += month * DAY
+    
+    
+    def __addDay(self, day: int) -> None:
         self.total += day
-        return
-    
-    def __monthToDays(month: int) -> int:
-        return month * DAY
-    
-    
-    def __yearToDays(year: int) -> int:
-        return year * MONTH * DAY
-    
+
 
     def strToCustomDate(date: str, format: str = DATE_FORMAT) -> object:
         formatDatetime = datetime.strptime(date, format)
         year, month, day = int(formatDatetime.year), int(formatDatetime.month), int(formatDatetime.day)
-        return CustomDate(year, month, day)
+        return CustomTimeStamp(year, month, day)
 
 
 
 def solution(today, terms, privacies):
     answer = []
 
-    today = CustomDate.strToCustomDate(today)
+    today = CustomTimeStamp.strToCustomDate(today)
     terms = dict(map(getTerm, terms))
 
     for i, privacy in enumerate(privacies, 1):
         date, termType = privacy.split()
         month = terms[termType]
 
-        expireDate = CustomDate.strToCustomDate(date)
+        expireDate = CustomTimeStamp.strToCustomDate(date)
         expireDate.add(month=month)
 
         if today >= expireDate:
