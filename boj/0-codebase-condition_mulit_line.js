@@ -25,8 +25,12 @@ const main = () => {
 }
 
 const preprocess = () => {
+    return lines.map(parse);
 }
 
+const parse = (line) => {
+    return line;
+}
 const solution = () => {
 }
 
