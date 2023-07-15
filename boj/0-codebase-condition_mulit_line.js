@@ -10,8 +10,9 @@ const lines = [];
 const read = (line) => {
     if (isCloseCondition()) {
         rl.close();
+        return;
     }
-
+    
     lines.push(line);
 }
 

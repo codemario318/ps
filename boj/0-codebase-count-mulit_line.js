@@ -11,18 +11,17 @@ const lines = [];
 const read = (line) => {
     if (count === null) {
         count = Number(line);
-    }
-
-    if (isCloseCondition()) {
-        rl.close();
+        return;
     }
 
     lines.push(line);
     count--;
-}
 
-const isCloseCondition = () => {
-    return count === 0;
+    if (count === 0) {
+        console.log(lines);
+        rl.close();
+        return;
+    }
 }
 
 const main = () => {
