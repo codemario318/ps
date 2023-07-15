@@ -5,22 +5,29 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-let input = '';
+const lines = [];
 
 const read = (line) => {
-    input = line;
-    rl.close();
+    if (isCloseCondition()) {
+        rl.close();
+    }
+
+    lines.push(line);
+}
+
+const isCloseCondition = () => {
+    return true;
 }
 
 const main = () => {
     const input = preprocess();
-    console.log(solution(input))
+    console.log(solution());
 }
 
 const preprocess = () => {
 }
 
-const solution = () => { 
+const solution = () => {
 }
 
 rl.on('line', read);

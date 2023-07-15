@@ -13,7 +13,7 @@ const read = (line) => {
         count = Number(line);
     }
 
-    if (count === 0) {
+    if (isCloseCondition()) {
         rl.close();
     }
 
@@ -21,7 +21,16 @@ const read = (line) => {
     count--;
 }
 
+const isCloseCondition = () => {
+    return count === 0;
+}
+
 const main = () => {
+    const input = preprocess();
+    console.log(solution());
+}
+
+const preprocess = () => {
 }
 
 const solution = () => {
