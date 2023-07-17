@@ -24,13 +24,15 @@ function read(line: string) {
 }
 
 function main() {
-  const input: any[] = preprocess();
+  const input: any[] = parseInputLines();
   console.log(solution());
 }
 
-function preprocess(): any[] {
+function parseInputLines(): any[] {
   return [];
 }
+
+function parseInputLine(): any {}
 
 function solution(): any {
   return "";
