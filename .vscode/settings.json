@@ -1,0 +1,6 @@
+{
+  "vetur.format.options.tabSize": 4,
+  "editor.formatOnSave": true,
+  "notebook.formatOnSave.enabled": true,
+  "eslint.codeActionsOnSave.rules": null
+}
