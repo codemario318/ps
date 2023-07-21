@@ -14,8 +14,6 @@ function read(line: string) {
   }
 
   lines.push(line);
-
-  rl.close();
 }
 
 function isCloseCondition(line: string): boolean {
@@ -23,7 +21,7 @@ function isCloseCondition(line: string): boolean {
 }
 
 function main() {
-  const input: any[] = parseInputLines();
+  const input: string[] = parseInputLines();
 
   input.forEach((line) => {
     console.log(solution(line));
@@ -38,34 +36,17 @@ function parseInputLine(line: string): string {
   return line.trim();
 }
 
-const ALOW_CHARS = ["e", "o"];
-const VOWELS = ["a", "e", "i", "o", "u"];
-const CONSONANTS = [
-  "b",
-  "c",
-  "d",
-  "f",
-  "g",
-  "h",
-  "j",
-  "k",
-  "l",
-  "m",
-  "n",
-  "p",
-  "q",
-  "r",
-  "s",
-  "t",
-  "v",
-  "w",
-  "x",
-  "y",
-  "z",
-];
+const ALOW_CHARS: string[] = ["e", "o"];
+const VOWELS: string = "aeiou";
+const CONSONANTS: string = "bcdfghjklmnpqrstvwxyz";
+
+const SEQ_LIMIT: number = 3;
+const SAME_SEQ_LIMIT: number = 2;
 
 function solution(password: string): string {
-  return "";
+  return isSafety(password)
+    ? `<${password}> is acceptable.`
+    : `<${password}> is not acceptable.`;
 }
 
 function isSafety(password: string): boolean {
@@ -77,32 +58,57 @@ function isSafety(password: string): boolean {
 }
 
 function hasVowel(password: string): boolean {
-  return true;
+  const vowelRegex: RegExp = getSequentialRegex(VOWELS, 1);
+  return vowelRegex.test(password);
 }
 
-function hasSequentialChars(password: string): boolean {
-  return hasSequentialVowel(password) || hasSequentialConsonants(password);
+function hasSequentialChars(
+  password: string,
+  limit: number = SEQ_LIMIT
+): boolean {
+  const vowelSeqRegex: RegExp = getSequentialRegex(VOWELS, limit);
+  const consonantSeqRegex: RegExp = getSequentialRegex(CONSONANTS, limit);
+  return vowelSeqRegex.test(password) || consonantSeqRegex.test(password);
 }
 
-function hasSequentialVowel(password: string, limit: number = 3): boolean {
-  return true;
-}
-
-function hasSequentialConsonants(password: string, limit: number = 3): boolean {
-  return true;
+function getSequentialRegex(chars: string, limit: number): RegExp {
+  return new RegExp(`[${chars}]\{${limit},\}`, "gi");
 }
 
 function hasSequentialSameChars(
   password: string,
-  limit: number = 2,
+  limit: number = SAME_SEQ_LIMIT,
   alowChars: string[] = ALOW_CHARS
 ): boolean {
-  const sequentialChars: string[] = getSameChars(limit);
-  return sequentialChars.find((char) => !alowChars.find) !== undefined;
+  const sequentialChars: string[] = getSequentialSameChars(password, limit);
+  return (
+    sequentialChars.find((char) => !alowChars.includes(char)) !== undefined
+  );
 }
 
-function getSameChars(limit: number = 2): string[] {
-  return [];
+function getSequentialSameChars(password: string, limit: number): string[] {
+  const result: string[] = [];
+  const [_, ...chars] = [...password];
+
+  let curChar: string = password.charAt(0);
+  let count: number = 1;
+
+  chars.push("end");
+
+  chars.forEach((char) => {
+    if (curChar === char) {
+      count++;
+    } else {
+      if (count >= limit) {
+        result.push(curChar);
+      }
+
+      curChar = char;
+      count = 1;
+    }
+  });
+
+  return result;
 }
 
 rl.on("line", read);
