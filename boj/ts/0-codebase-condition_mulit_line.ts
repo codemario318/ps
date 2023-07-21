@@ -23,16 +23,17 @@ function isCloseCondition(): boolean {
 }
 
 function main() {
-  const input: any[] = preprocess();
-  const [a, b] = input;
-  console.log(solution(a, b));
+  const input: any[] = parseInputLines();
+  console.log(solution());
 }
 
-function preprocess(): any[] {
+function parseInputLines(): any[] {
   return [];
 }
 
-function solution(a: number, b: number): any {
+function parseInputLine(): any {}
+
+function solution(): any {
   return "";
 }
 
