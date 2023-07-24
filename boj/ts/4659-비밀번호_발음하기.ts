@@ -5,7 +5,7 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-let lines: string[] = [];
+const lines: string[] = [];
 
 function read(line: string) {
   if (isCloseCondition(line)) {
@@ -88,7 +88,7 @@ function hasSequentialSameChars(
 
 function getSequentialSameChars(password: string, limit: number): string[] {
   const result: string[] = [];
-  const [_, ...chars] = [...password];
+  const [_, ...chars] = password.split("");
 
   let curChar: string = password.charAt(0);
   let count: number = 1;
