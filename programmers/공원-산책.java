@@ -51,63 +51,52 @@ park	routes	result
 처음 입력된 명령은 공원을 나가게 되고 두 번째로 입력된 명령 또한 장애물을 지나가게 되므로 두 입력은 제외한 세 번째 명령만 따르므로 결과는 다음과 같습니다. [0,1] -> [0,0]
  */
 class Solution {
+    private String[] park;
+
+    private int H;
+    private int W;
+
     /**
      * @throws Exception
      */
     public int[] solution(String[] park, String[] routes) throws Exception {
-        int H = park.length - 1;
-        int W = park[0].length() - 1;
+        this.initPark(park);
 
-        int[] startPosition = this.findStartPosition(park);
+        Position cur = this.getStartPosition();
 
-        int h = startPosition[0];
-        int w = startPosition[1];
+        for (String route : routes) {
+            String[] r = route.split(" ");
 
-        for (int i = 0; i < routes.length; i++) {
-            String[] route = routes[i].split(" ");
-            int[] offset = Solution.getOffset(route[0]);
-            int dist = Integer.parseInt(route[1]);
+            Offset offset = new Offset(r[0]);
+            int distant = Integer.parseInt(r[1]);
 
-            int wh = offset[0];
-            int ww = offset[1];
+            Position next = cur.getNext(offset, distant);
 
-            int nh = h + (wh * dist);
-            int nw = w + (ww * dist);
-
-            if (this.isOutOfArea(H, W, nh, nw)) {
+            if (isOutOfArea(next)) {
                 continue;
             }
 
-            if (this.isBlocked(park, h, w, wh, ww, dist)) {
+            if (isBlocked(cur, offset, distant)) {
                 continue;
             }
 
-            h = nh;
-            w = nw;
+            cur = next;
         }
 
-        return new int[] { h, w };
+        return cur.toArray();
     }
 
-    private boolean isBlocked(String[] park, int h, int w, int wh, int ww, int dist) {
-        for (; dist > 0; dist--) {
-            h += wh;
-            w += ww;
-
-            if (park[h].charAt(w) == 'X') {
-                return true;
-            }
-
-        }
-
-        return false;
+    private void initPark(String[] park) {
+        this.park = park;
+        this.H = park.length - 1;
+        this.W = park[0].length() - 1;
     }
 
-    private int[] findStartPosition(String[] park) throws Exception {
-        for (int h = 0; h < park.length; h++) {
-            for (int w = 0; w < park[h].length(); w++) {
-                if (park[h].charAt(w) == 'S') {
-                    return new int[] { h, w };
+    private Position getStartPosition() throws Exception {
+        for (int h = 0; h <= this.H; h++) {
+            for (int w = 0; w <= this.W; w++) {
+                if (getItem(h, w) == 'S') {
+                    return new Position(h, w);
                 }
             }
         }
@@ -115,22 +104,90 @@ class Solution {
         throw new Exception();
     }
 
-    static int[] getOffset(String offset) throws Exception {
-        switch (offset) {
+    private char getItem(int h, int w) {
+        return this.park[h].charAt(w);
+    }
+
+    private boolean isOutOfArea(Position position) {
+        int h = position.getH();
+        int w = position.getW();
+        return h < 0 || h > this.H || w < 0 || w > this.W;
+    }
+
+    private boolean isBlocked(Position position, Offset offset, int distant) {
+        for (; distant > 0; distant--) {
+            Position next = position.getNext(offset, 1);
+
+            if (this.getItem(next.getH(), next.getW()) == 'X')
+                return true;
+
+            position = next;
+        }
+
+        return false;
+    }
+}
+
+class Position {
+    private int h;
+    private int w;
+
+    public Position(int h, int w) {
+        this.h = h;
+        this.w = w;
+    }
+
+    public Position getNext(Offset offset, int distant) {
+        int h = this.h + (offset.getH() * distant);
+        int w = this.w + (offset.getW() * distant);
+        return new Position(h, w);
+    }
+
+    public int getH() {
+        return this.h;
+    }
+
+    public int getW() {
+        return this.w;
+    }
+
+    public int[] toArray() {
+        return new int[] { this.h, this.w };
+    }
+}
+
+class Offset {
+    private int h;
+    private int w;
+
+    public Offset(String direction) throws Exception {
+        switch (direction) {
             case "N":
-                return new int[] { -1, 0 };
+                this.h = -1;
+                this.w = 0;
+                break;
             case "S":
-                return new int[] { 1, 0 };
+                this.h = 1;
+                this.w = 0;
+                break;
             case "W":
-                return new int[] { 0, -1 };
+                this.h = 0;
+                this.w = -1;
+                break;
             case "E":
-                return new int[] { 0, 1 };
+                this.h = 0;
+                this.w = 1;
+                break;
             default:
                 throw new Exception();
         }
     }
 
-    private boolean isOutOfArea(int H, int W, int h, int w) {
-        return w < 0 || w > W || h < 0 || h > H;
+    public int getH() {
+        return this.h;
+    }
+
+    public int getW() {
+        return this.w;
     }
 }
