@@ -62,11 +62,27 @@ eg4.png
 이를 드래그로 선택하기 위해서는 그 칸의 왼쪽 위 (1, 0)에서 오른쪽 아래 (2, 1)로 드래그 하면 됩니다. (1, 0)에서 (2, 2)로 드래그 해도 아이콘을 선택할 수 있지만 이전보다 이동거리가 늘어납니다. 따라서 [1, 0, 2, 1]을 return합니다.
  */
 
-
-
 class Solution {
     public int[] solution(String[] wallpaper) {
-        int[] answer = {};
-        return answer;
+        int H = wallpaper.length;
+        int W = wallpaper[0].length();
+
+        int top = H;
+        int left = W;
+        int bottom = 0;
+        int right = 0;
+
+        for (int h = 0; h < H; h++) {
+            for (int w = 0; w < W; w++) {
+                if (wallpaper[h].charAt(w) == '#') {
+                    top = Math.min(top, h);
+                    left = Math.min(left, w);
+                    bottom = Math.max(bottom, h);
+                    right = Math.max(right, w);
+                }
+            }
+        }
+
+        return new int[] {top, left, bottom + 1, right + 1};
     }
 }
