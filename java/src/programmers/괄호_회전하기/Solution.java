@@ -2,9 +2,21 @@ package programmers.괄호_회전하기;
 
 import java.util.*;
 
+class Test implements Comparable<Test>{
+    int a;
+    String b;
+
+    @Override
+    public int compareTo(Test other) {
+        return 0;
+    }
+}
+
 class Solution {
     public int solution(String s) {
         int answer = 0;
+
+        PriorityQueue<Test> pq = new PriorityQueue<>();
 
         for (int i = 0; i < s.length(); i++) {
             s = rotate(s);
