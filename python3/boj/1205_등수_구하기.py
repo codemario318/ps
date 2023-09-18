@@ -48,8 +48,8 @@ if __name__ == "__main__":
     scores = map(int, sys.stdin.readline().split())
 
     count = 0
-    rank = 0
-    scoreCount = 1
+    rank = 1
+    scoreCount = 0
     prev = 0
 
     for score in scores:
@@ -124,8 +124,14 @@ if __name__ == "__main__":
 
 3 30 4
 40 30 30
->> 4
+>> 2
 
 10 1 11
 10 9 8 7 6 5 4 3 3 3
+
+10 100 10
+90 90 90 90 90 90 90 90 90 90
+>> 1
+
+
 """
