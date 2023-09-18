@@ -3,5 +3,9 @@
   "editor.formatOnSave": true,
   "notebook.formatOnSave.enabled": true,
   "eslint.codeActionsOnSave.rules": null,
-  "cSpell.words": ["aeiou", "bcdfghjklmnpqrstvwxyz"]
+  "cSpell.words": ["aeiou", "bcdfghjklmnpqrstvwxyz"],
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "python.formatting.provider": "none"
 }
