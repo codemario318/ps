@@ -31,7 +31,6 @@ import sys
 
 readline = sys.stdin.readline
 
-
 if __name__ == "__main__":
     N = int(readline())
     M = int(readline())
