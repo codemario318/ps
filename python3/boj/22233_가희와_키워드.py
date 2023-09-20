@@ -39,9 +39,5 @@ if __name__ == "__main__":
     keyword_set = set(readline().rstrip() for _ in range(N))
 
     for _ in range(M):
-        for keyword in map(lambda x: x.rstrip(), readline().split(",")):
-            try:
-                keyword_set.remove(keyword)
-            except KeyError:
-                continue
+        keyword_set.difference_update(map(lambda x: x.rstrip(), readline().split(",")))
         print(len(keyword_set))
