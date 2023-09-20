@@ -56,23 +56,13 @@ if __name__ == "__main__":
         else:
             graph[s][e] = min(graph[s][e], d)
 
-    q = deque([(0, 0)])
-    res = float("inf")
+    mem = [i for i in range(D + 1)]
 
-    while q:
-        pos, cost = q.popleft()
+    for s in range(D + 1):
+        mem[s] = min(mem[s], mem[s - 1] + 1)
 
-        if pos == D:
-            res = min(res, cost)
-            continue
+        for dest, dist in graph[s].items():
+            if dest <= D:
+                mem[dest] = min(mem[dest], mem[s] + dist)
 
-        if pos < D:
-            q.append((pos + 1, cost + 1))
-
-        for dest, dist in graph[pos].items():
-            next_cost = cost + dist
-
-            if next_cost <= D:
-                q.append((dest, next_cost))
-
-    print(res)
+    print(mem[-1])
