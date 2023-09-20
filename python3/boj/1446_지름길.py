@@ -40,7 +40,7 @@
 """
 
 import sys
-from collections import defaultdict, deque
+from collections import defaultdict
 
 readline = sys.stdin.readline
 
