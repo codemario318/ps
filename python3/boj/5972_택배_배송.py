@@ -47,7 +47,7 @@
 import sys
 from collections import defaultdict
 
-sys.setrecursionlimit(1**6)
+sys.setrecursionlimit(10**6)
 
 readline = sys.stdin.readline
 
