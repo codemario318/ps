@@ -46,26 +46,9 @@
 
 import sys
 from collections import defaultdict
-
-sys.setrecursionlimit(10**6)
+from heapq import heappop, heappush
 
 readline = sys.stdin.readline
-
-
-def dfs(pos, cow_meal, visited):
-    if pos == N:
-        return cow_meal
-
-    min_cow_meal = float("inf")
-
-    for nxt, cost in graph[pos].items():
-        if nxt not in visited:
-            visited.add(nxt)
-            min_cow_meal = min(min_cow_meal, dfs(nxt, cow_meal + cost, visited))
-            visited.remove(nxt)
-
-    return min_cow_meal
-
 
 if __name__ == "__main__":
     N, M = map(int, readline().split())
@@ -73,7 +56,24 @@ if __name__ == "__main__":
 
     for _ in range(M):
         a, b, c = map(int, readline().split())
-        graph[a][b] = c
-        graph[b][a] = c
 
-    print(dfs(1, 0, set([1])))
+        graph[a][b] = c if b not in graph[a] else min(graph[a][b], c)
+        graph[b][a] = c if a not in graph[b] else min(graph[b][a], c)
+
+    D = [float("inf") for _ in range(N + 1)]
+
+    hq = [(0, 1)]
+
+    while hq:
+        cost, cur = heappop(hq)
+
+        if cur == N:
+            continue
+
+        for nxt, c in graph[cur].items():
+            next_cost = cost + c
+            if D[nxt] > next_cost:
+                heappush(hq, [next_cost, nxt])
+                D[nxt] = next_cost
+
+    print(D[-1])
