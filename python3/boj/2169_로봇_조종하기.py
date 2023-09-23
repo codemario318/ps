@@ -25,46 +25,38 @@ NASA에서는 화성 탐사를 위해 화성에 무선 조종 로봇을 보냈�
 7 -76 -11 77 15
 예제 출력 1 
 319
+
+5 5
+-100 -100 -100 -100 -100
+-100 -100 -100 -100 -100
+-100 -100 -100 -100 -100
+-100 -100 -100 -100 -100
+-100 -100 -100 -100 -100
+>> -900
+
 """
 import sys
 
-sys.setrecursionlimit(10**6)
-
 readline = sys.stdin.readline
-
-OFFSET = [(0, 1), (0, -1), (1, 0)]
-
-
-def dfs(r, c, cost):
-    if r == N - 1 and c == M - 1:
-        return
-
-    for wr, wc in OFFSET:
-        nr, nc = r + wr, c + wc
-
-        if not (0 <= nr < N and 0 <= nc < M):
-            continue
-
-        next_cost = board[nr][nc] + cost
-
-        if not visited[nr][nc] and D[nr][nc] < next_cost:
-            visited[nr][nc] = True
-            D[nr][nc] = next_cost
-
-            dfs(nr, nc, next_cost)
-
-            visited[nr][nc] = False
-
 
 if __name__ == "__main__":
     N, M = map(int, readline().split())
-    board = [list(map(int, readline().split())) for _ in range(N)]
+    board = [
+        [-float("inf"), *map(int, readline().split()), -float("inf")] for _ in range(N)
+    ]
 
-    D = [[-float("inf") for _ in range(M)] for _ in range(N)]
-    visited = [[False for _ in range(M)] for _ in range(N)]
+    for i in range(2, M + 1):
+        board[0][i] += board[0][i - 1]
 
-    D[0][0] = board[0][0]
-    visited[0][0] = True
+    for i in range(1, N):
+        temp_left = board[i][:]
+        for j in range(1, M + 1):
+            temp_left[j] += max(board[i - 1][j], temp_left[j - 1])
 
-    dfs(0, 0, board[0][0])
-    print(D[N - 1][M - 1])
+        temp_right = board[i][:]
+        for j in range(M, 0, -1):
+            temp_right[j] += max(board[i - 1][j], temp_right[j + 1])
+
+        board[i] = list(map(max, zip(temp_left, temp_right)))
+
+    print(board[-1][-2])
