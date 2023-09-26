@@ -54,21 +54,16 @@ if __name__ == "__main__":
     s = 0
 
     while s < len(docs) - len(word) + 1:
-        print(f"s: {s}")
         e = s
 
         for w in word:
-            print(f"e: {e}, w: {w}")
             if docs[e] == w:
                 e += 1
-                print(f"collect! e: {e}")
             else:
                 s += 1
-                print(f"nope! s: {s}")
                 break
         else:
             s = e
             count += 1
-            print(f"done! s: {s}, count: {count}")
 
     print(count)
