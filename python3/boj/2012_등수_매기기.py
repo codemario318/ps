@@ -23,8 +23,22 @@ KOI 담당조교로 참가한 김진영 조교는 실수로 모든 학생의 프
 2
 예제 출력 1 
 3
+
 출처
 잘못된 조건을 찾은 사람: disy, djm03178, qja0950
+
+4
+1
+1
+4
+4
+>> 2
+
+3
+2
+2
+2
+>> 2
 """
 import sys
 from collections import Counter
@@ -35,10 +49,6 @@ if __name__ == "__main__":
     N = int(readline())
 
     ranks = [int(readline()) for _ in range(N)]
+    ranks.sort()
 
-    counter = Counter(ranks)
-
-    remain_ranks = list(filter(lambda x: counter[x] == 0, range(1, N + 1)))
-    ranks = list(filter(lambda x: counter[x] > 1, range(1, N + 1)))
-
-    print(sum(map(lambda x: abs(x[0] - x[1]), zip(ranks, remain_ranks))))
+    print(sum(map(lambda x: abs(x[0] - x[1]), zip(ranks, range(1, N + 1)))))
