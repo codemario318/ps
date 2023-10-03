@@ -44,27 +44,16 @@ readline = sys.stdin.readline
 
 
 def maximum_stock(n, stocks):
-    profit = 0
-    max_val = 0
-    count = 0
     total = 0
+    max_val = stocks[-1]
 
-    for i in range(n - 1, -1, -1):
-        stock = stocks[i]
-
+    for stock in reversed(stocks):
         if max_val >= stock:
-            count += 1
-            total += stock
+            total += max_val - stock
         else:
-            profit += max_val * count - total
             max_val = stock
-            count = 0
-            total = 0
 
-    if max_val >= stock:
-        profit += max_val * count - total
-
-    return profit
+    return total
 
 
 if __name__ == "__main__":
