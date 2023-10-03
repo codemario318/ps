@@ -33,6 +33,4 @@ if __name__ == "__main__":
     n = int(readline())
     s = sorted(map(int, readline().split()))
     mid = n // +1
-    print(s[: n // 2 + 1])
-    print(s[n // 2 + 1 :])
     print(min(map(sum, zip(s[:mid], reversed(s[mid:])))))
