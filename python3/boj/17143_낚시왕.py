@@ -104,12 +104,13 @@ DIST = {1: (1, 0), 2: (-1, 0), 3: (0, 1), 4: (0, -1)}
 
 
 def fishing(board, c):
+    size = 0
     for r in range(R):
         if board[r][c]:
+            size = board[r][c]["size"]
             board[r][c] = None
-            return True
-
-    return False
+            break
+    return size
 
 
 def move_sharks(board):
@@ -127,8 +128,8 @@ def move_sharks(board):
 
 
 def move_shark(board, r, c, shark):
-    wr, wc = DIST[shark["dist"]]
-    nr, nc = next_pos(r, wr, R), next_pos(c, wc, C)
+    nr = next_pos(r, wr * shark["speed"], R)
+    nc = next_pos(c, wc * shark["speed"], C)
 
     if board[nr][nc] and board[nr][nr]["size"] > shark["size"]:
         return
@@ -138,7 +139,14 @@ def move_shark(board, r, c, shark):
     return
 
 
+# 다음 위치 구하기, 범위 넘어갔을때 몫이 홀수면 방향 바뀜, 나머지로 현재 위치 구함
 def next_pos(p, w, limit):
+    if w == 0:
+        return p
+
+    while w > 0:
+        p
+
     return
 
 
@@ -155,7 +163,7 @@ if __name__ == "__main__":
 
         board[r][c] = {"speed": speed, "dist": dist, "size": size}
 
-    count = 0
+    result = 0
     for c in range(C):
-        count += fishing(board, c)
+        result += fishing(board, c)["size"]
         move_sharks(board)
