@@ -41,4 +41,5 @@ n == candies.length
 class Solution:
     def kidsWithCandies(self, candies: List[int], extraCandies: int) -> List[bool]:
         maxCandy: int = max(candies)
-        return candies.map(lambda c: c + extraCandies).map(lambda c: c >= maxCandy)
+        candies = map(lambda c: c + extraCandies, candies)
+        return map(lambda c: c >= maxCandy, candies)
