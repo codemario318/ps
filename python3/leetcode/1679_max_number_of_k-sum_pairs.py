@@ -34,25 +34,15 @@ from collections import Counter
 
 class Solution:
     def maxOperations(self, nums: List[int], k: int) -> int:
-        numCounter = Counter(nums)
         total = 0
-        
-        for num in numCounter:
-            target = k - num
-            
-            if num == target:
-                minCount = numCounter[num] // 2
-                numCounter[num] -= minCount
-            else:
-                minCount = min(numCounter[num], numCounter[target])
-                
-                if minCount == 0:
-                    continue
+        numCounter = Counter(nums)
 
-                numCounter[num] -= minCount
-                numCounter[target] -= minCount
-    
-            total += minCount
-    
-        return total
-            
+        for num, count in numCounter.items():
+            target = k - num
+
+            if num == target:
+                total += count // 2
+            elif target in numCounter:
+                total += min(count, numCounter[target]) / 2
+
+        return int(total)
