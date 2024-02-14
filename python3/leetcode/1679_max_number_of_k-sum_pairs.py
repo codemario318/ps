@@ -42,7 +42,7 @@ class Solution:
 
             if num == target:
                 total += count // 2
-            elif target in numCounter:
-                total += min(count, numCounter[target]) / 2
+            elif num < target:
+                total += min(count, numCounter[target])
 
-        return int(total)
+        return total
