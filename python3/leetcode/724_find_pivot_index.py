@@ -41,23 +41,13 @@ Constraints:
 
 class Solution:
     def pivotIndex(self, nums: List[int]) -> int:
-        left = [0]
-        
+        prefix = [0]
+
         for n in nums:
-            left.append(left[-1] + n)
-            
-        right = [left[-1]]
-        
-        for n in reversed(nums):
-            right.append(right[-1] - n)
-        
-        for i, (l, r) in enumerate(zip(left, right)):
-            if l == r:
+            prefix.append(prefix[-1] + n)
+
+        for i in range(len(nums)):
+            if prefix[i] == prefix[-1] - prefix[i + 1]:
                 return i
-            
+
         return -1
-        
-        
-        
-        
-         
