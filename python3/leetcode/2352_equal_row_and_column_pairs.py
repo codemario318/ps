@@ -29,16 +29,9 @@ n == grid.length == grid[i].length
 1 <= n <= 200
 1 <= grid[i][j] <= 105
 """
+from collections import Counter
+
 class Solution:
     def equalPairs(self, grid: List[List[int]]) -> int:
-        rows = [tuple(row) for row in grid]
-        cols = list(zip(*grid))
-
-        count = 0
-
-        for i in range(len(grid)):
-            for j in range(len(grid[0])):
-                if rows[i] == cols[j]:
-                    count += 1
-
-        return count
+        counter = Counter(map(tuple, grid))
+        return sum(counter[col] for col in zip(*grid))
