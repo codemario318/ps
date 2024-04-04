@@ -1,5 +1,3 @@
-package programmers.n2_배열_자르기;
-
 /**
  * 문제 설명
 정수 n, left, right가 주어집니다. 다음 과정을 거쳐서 1차원 배열을 만들고자 합니다.
@@ -21,19 +19,15 @@ n	left	right	result
 4	7	14	[4,3,3,3,4,4,4,4]
  */
 
+package programmers.n2_배열_자르기;
+
+import java.util.stream.LongStream;
+
 class Solution {
     public int[] solution(int n, long left, long right) {
-        int size = (int) (right - left + 1);
-        int[] answer = new int[size];
-        int i = 0;
-
-        for(long num = left; num <= right; num++) {
-            long row = (num / n);
-            long col = (num % n);
-            answer[i] = (int) Math.max(row, col) + 1;
-            i++;
-        }
-
-        return answer;
+        return LongStream
+            .rangeClosed(left, right)
+            .mapToInt(num -> (int) (Math.max(num / n, num % n) + 1))
+            .toArray();
     }
 }
