@@ -35,105 +35,67 @@ package programmers.게임_맵_최단거리;
 
 import java.util.*;
 
-class Point {
-    private final int x;
-    private final int y;
+class Node {
+    public int x;
+    public int y;
+    public int dist;
 
-    Point(int x, int y) {
+    Node(int x, int y, int dist) {
         this.x = x;
         this.y = y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-}
-
-class Node {
-    private final Point position;
-    private final int dist;
-
-    Node(Point position, int dist) {
-        this.position = position;
         this.dist = dist;
-    }
-
-    public int getDist() {
-        return dist;
-    }
-
-    public Point getPosition() {
-        return position;
     }
 }
 
 class Solution {
-    private final List<Point> OFFSET = Arrays.asList(new Point[]{
-            new Point(0, 1),
-            new Point(1, 0),
-            new Point(0, -1),
-            new Point(-1, 0),
-    });
+    private final int[][] OFFSET = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
     public int solution(int[][] maps) {
-        Queue<Node> queue = new ArrayDeque<>();
+        Queue<Node> queue = new LinkedList<>();
         
-        queue.add(new Node(new Point(0, 0),1));
+        queue.add(new Node(0, 0, 1));
         
         while (!queue.isEmpty()) {
             Node cur = queue.poll();
-            Point curPosition = cur.getPosition();
             
-            if (isVisited(maps, curPosition)) {
-                continue;
+            if (isDestination(maps, cur)) {
+                return cur.dist;
             }
 
-            if (isDestination(maps, cur.getPosition())) {
-                return cur.getDist();
-            }
-            
-            setVisited(maps, curPosition);
+            for (int[] offset : OFFSET) {
+                Node next = getNextNode(cur, offset[0], offset[1]);
 
-            OFFSET.stream()
-                .filter((offset -> isMoveable(maps, curPosition, offset)))
-                .map(offset -> getNextNode(cur, offset))
-                .forEach(node -> queue.add(node));
+                if (!isMoveable(maps, next)) {
+                    continue;
+                }
+
+                queue.add(next);
+                setVisited(maps, next);
+            }
         }
 
         return -1;
     }
-    
-    private boolean isVisited(int[][] maps, Point position) {
-        return maps[position.getY()][position.getX()] == 0;
-    }
 
-    private void setVisited(int[][] maps, Point position) {
-        maps[position.getY()][position.getX()] = 0;
-    }
-    
-    private Boolean isDestination(int[][] maps, Point position) {
-        return position.getX() == maps[0].length - 1
-               && position.getY() == maps.length - 1;
-    }
-
-    private Boolean isMoveable(int[][] maps, Point cur, Point offset) {
-        int nextX = cur.getX() + offset.getX();
-        int nextY = cur.getY() + offset.getY();
-
-        return nextX >= 0
-               && nextX < maps[0].length
-               && nextY >= 0
-               && nextY < maps.length
+    private boolean isMoveable(int[][] maps, Node node) {
+        return node.x >= 0
+               && node.x < maps[0].length
+               && node.y >= 0
+               && node.y < maps.length
+               && maps[node.y][node.x] == 1
        ;
     }
 
-    private Node getNextNode(Node cur, Point offset) {
-        Point curPosition = cur.getPosition();
-        Point nextPosition = new Point(curPosition.getX() + offset.getX(), curPosition.getY() + offset.getY());
-        return new Node(nextPosition, cur.getDist() + 1);
+    private Node getNextNode(Node node, int x, int y) {
+        return new Node(node.x + x, node.y + y, node.dist + 1);
+    }
+
+    private void setVisited(int[][] maps, Node node) {
+        maps[node.y][node.x] = 0;
+    }
+
+    private Boolean isDestination(int[][] maps, Node node) {
+        return node.x == maps[0].length - 1
+               && node.y == maps.length - 1;
     }
 }
