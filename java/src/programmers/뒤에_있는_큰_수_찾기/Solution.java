@@ -20,22 +20,29 @@ numbers	result
 
 package programmers.뒤에_있는_큰_수_찾기;
 
+import java.util.Stack;
+
 class Solution {
     public int[] solution(int[] numbers) {
         int[] answer = new int[numbers.length];
-        
-        for(int i = 0; i < numbers.length; i++) {
+        Stack<Integer> maxs = new Stack<>();
+
+        for(int i = numbers.length - 1; i >= 0; i--) {
             int cur = numbers[i];
             
-            answer[i] = -1;
-            
-            for(int j = i + 1; j < numbers.length; j++) {
-                int next = numbers[j];
-                
-                if (cur < next) {
-                    answer[i] = next;
+            while (!maxs.empty()) {
+                if (cur < maxs.peek()) {
+                    answer[i] = maxs.peek();
+                    maxs.push(cur);
                     break;
+                } else {
+                    maxs.pop();
                 }
+            }
+
+            if (maxs.empty()) {
+                answer[i] = -1;
+                maxs.push(cur);
             }
         }
         
