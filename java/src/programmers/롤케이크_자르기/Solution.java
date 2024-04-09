@@ -31,6 +31,8 @@ class Solution {
         Map<Integer, Integer> left = new HashMap<>();
         Map<Integer, Integer> right = new HashMap<>();
 
+        Queue<Integer> queue = new LinkedList<>();
+        
         for (int t : topping) {
             increase(right, t);
         }
