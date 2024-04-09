@@ -31,11 +31,11 @@ class Solution {
         Map<Integer, Integer> left = new HashMap<>();
         Map<Integer, Integer> right = new HashMap<>();
 
-        for(int t : topping) {
+        for (int t : topping) {
             increase(right, t);
         }
 
-        for(int t : topping) {
+        for (int t : topping) {
             increase(left, t);
             decrease(right, t);
 
@@ -48,20 +48,13 @@ class Solution {
     }
 
     private void increase(Map<Integer, Integer> counter, int item) {
-        int count = counter.getOrDefault(item, 0) + 1;
-        update(counter, item, count);
+        counter.put(item, counter.getOrDefault(item, 0) + 1);
     }
 
     private void decrease(Map<Integer, Integer> counter, Integer item) {
-        int count = counter.getOrDefault(item, 0) - 1;
-        update(counter, item, count);
-    }
-
-    private void update(Map<Integer, Integer> counter, Integer item, Integer value) {
-        if(value == 0) {
+        counter.put(item, counter.get(item) - 1);
+        if (counter.get(item) == 0) {
             counter.remove(item);
-        } else {
-            counter.put(item, value);
         }
     }
 }
