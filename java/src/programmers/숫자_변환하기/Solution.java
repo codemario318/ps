@@ -3,38 +3,21 @@ package programmers.숫자_변환하기;
 import java.util.*;
 
 class Solution {
-    Queue<int[]> queue = new LinkedList<>();
-    Set<Integer> visited = new HashSet<>();
+    private int MAX_VALUE = 3_000_001;
 
     public int solution(int x, int y, int n) {
-        push(x, 0);
+        int[] mem = new int[y * 3 + 1];
 
-        while(!queue.isEmpty()) {
-            int[] item = queue.poll();
-            int num = item[0];
-            int count = item[1];
+        Arrays.fill(mem, MAX_VALUE);
+        mem[x] = 0;
 
-            if (num == y) {
-                return count;
-            }
-
-            if (num > y) {
-                continue;
-            }
-
-            push(num * 2, count + 1);
-            push(num * 3, count + 1);
-            push(num + n, count + 1);
+        for(int i = x; i <= y; i++) {
+            int cur = mem[i] + 1;
+            mem[i * 2] = Math.min(mem[i * 2], cur);
+            mem[i * 3] = Math.min(mem[i * 3], cur);
+            mem[i + n] = Math.min(mem[i + n], cur);
         }
 
-        return -1;
-    }
-
-    private void push(int value, int count) {
-        if (visited.contains(value)) 
-            return;
-
-        queue.add(new int[]{value, count});
-        visited.add(value);
+        return mem[y] != MAX_VALUE ? mem[y] : -1;
     }
 }
