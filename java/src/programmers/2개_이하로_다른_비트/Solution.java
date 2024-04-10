@@ -5,28 +5,21 @@ class Solution {
         long[] answer = new long[numbers.length];
 
         for (int i = 0; i < numbers.length; i++) {
-            long x = numbers[i];
-
-            for (long y = x + 1; y < Long.MAX_VALUE; y++) {
-                if (getDiffBitCount(x, y) <= 2) {
-                    answer[i] = y;
-                    break;
-                }
-            }
+            long number = numbers[i];
+            answer[i] = number + (number % 2 == 0 ? 1 : get(number));
         }
 
         return answer;
     }
 
-    private int getDiffBitCount(long x, long y) {
-        long temp = x ^ y;
-        int count = 0;
+    private long get(long n) {
+        int count = -1;
 
-        while (temp > 0) {
-            count += temp % 2;
-            temp = temp / 2;
+        while (n % 2 == 1) {
+            count++;
+            n /= 2;
         }
 
-        return count;
+        return (long) Math.pow(2, count);
     }
 }
