@@ -1,5 +1,7 @@
 package programmers.풍선_터트리기;
 
+import java.util.HashMap;
+
 class Solution {
     public int solution(int[] a) {
         int length = a.length;
