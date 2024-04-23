@@ -34,4 +34,4 @@ if __name__ == '__main__':
         if string == '.':
             break
 
-        print("yes" if solution(re.sub(REGEX, '', string)) else "no")
+        print("yes" if solution(re.sub(REGEX, '', string + temp)) else "no")
