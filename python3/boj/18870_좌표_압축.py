@@ -7,4 +7,4 @@ if __name__ == "__main__":
     numbers = list(map(int, readline().split()))
     numberSet = set(numbers)
     counter = {number: i for i, number in enumerate(sorted(numberSet))}
-    print(" ".join(map(lambda x: str(counter[x]), numbers)))
+    print(" ".join(str(counter[n]) for n in numbers))
